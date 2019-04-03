@@ -1,5 +1,7 @@
 # Simple-Accounting-javafx-app
 
+![V2](src/assets/v2.PNG)
+
 This project has 2 version `first version` is [Main.java](src/Main.java) and `second versio` is [Main_2.java](src/Main_2.java)
 
 # Code Descriptions:
