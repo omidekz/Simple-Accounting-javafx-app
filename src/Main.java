@@ -22,63 +22,7 @@ public class Main extends Application {
     private Button showFucktor;
     private ArrayList<Factor> factors = new ArrayList<>();
     private ArrayList<Product> products = new ArrayList<>();
-    private static final String FILE_ADDRESS = "P.txt";
     ///******************************************
-    private void save() throws IOException {
-        OutputStreamWriter osw = new FileWriter(FILE_ADDRESS);
-        for (Product p : products){
-            String str = p.getForSave();
-            osw.write(str);
-        }
-        osw.close();
-    }
-    private void read() throws IOException {
-        File file = new File(FILE_ADDRESS);
-        if(!file.exists())
-            return;
-        InputStreamReader isr = new FileReader(FILE_ADDRESS);
-        StringBuilder txtB = new StringBuilder();
-        int chr;
-        while ((chr = isr.read())!=-1){
-            txtB.append((char) chr);
-        }
-
-        chr = 1;
-        String tx = txtB.toString();
-        String[] lines = tx.split("\n");
-        for (String line : lines) {
-            String[] attr = line.split(" ");
-            if(attr.length!=6 && attr.length != 4)
-                continue;
-            products.add(Product.Extract(attr));
-            products.get(chr-1).setCounter(chr);
-            chr++;
-        }
-    }
-    private void fsave() throws IOException {
-        OutputStreamWriter osw = new FileWriter("f.tx");
-        for (Factor factor : factors) {
-            osw.write(factor.getForSave() + "\n");
-        }
-        osw.close();
-    }
-    private void fread() throws IOException {
-        if (!new File("f.tx").exists())
-            return;
-        InputStreamReader isr = new FileReader("f.tx");
-        int ch;
-        StringBuilder stringBuilder = new StringBuilder();
-        while ((ch=isr.read())!=-1)
-            stringBuilder.append((char) ch);
-        String [] lines = stringBuilder.toString().trim().split("\n");
-        for (String line : lines) {
-            String[] attr = line.split(" ");
-            if(attr.length < 3)
-                continue;
-            factors.add(Factor.extract(products, attr));
-        }
-        isr.close();
-    }
 
     public static void main(String[] args) {
         launch(args);
@@ -87,9 +31,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        products = new ArrayList<>();
-        read();
-        fread();
+        DataBase db = new DataBase(products,factors);
+
+        db.read();
+        db.fread();
 
         stage.getIcons().addAll(new Image("assets\\store.png"));
         stage.setTitle("Store");
@@ -99,8 +44,8 @@ public class Main extends Application {
         ImageView imageView;
         stage.setOnCloseRequest(e->{
             try {
-                save();
-                fsave();
+                db.save();
+                db.fsave();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
