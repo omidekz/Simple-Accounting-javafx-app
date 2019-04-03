@@ -1,0 +1,15 @@
+.label{
+    -fx-padding: 5px 2px 5px 2px;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+/*.label:hover {*/
+    /*-fx-background-color: #9cd4e6;*/
+/*}*/
+/*.label:visited{*/
+    /*-fx-background-color: #9cd4e6;*/
+/*}*/
+.root{
+    -fx-background-color: dodgerblue;
+}
